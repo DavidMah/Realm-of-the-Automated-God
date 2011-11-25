@@ -5,8 +5,11 @@ public class UserCharacter {
   private static int RADIUS  = 1;
   private static int DEGREES = 1;
 
-  private static int AUTO_ATTACK_KEY = 74;
+  private static int CENTER_X = 700;
+  private static int CENTER_Y = 675;
 
+  private static int AUTO_ATTACK_KEY = 74;
+  private static int NEXUS_KEY = 70;
   private static int UP_KEY    = 87;
   private static int LEFT_KEY  = 65;
   private static int DOWN_KEY  = 83;
@@ -15,6 +18,7 @@ public class UserCharacter {
   private List<int[]>[] enemyQuadrants;
   private int health;
   private int targetQuadrant;
+  private int targetAim;
 
   private Robot control;
 
@@ -30,9 +34,9 @@ public class UserCharacter {
   }
 
   public void runActions() {
-    int tQuadrant = findBestQuadrant();
-    moveTo(tQuadrant);
-    aimAt(tQuadrant);
+    monitorHealth();
+    moveTo(findBestQuadrant());
+    aimAtEnemies();
   }
 
   private void moveTo(int tQuadrant) {
@@ -54,10 +58,6 @@ public class UserCharacter {
     }
   }
 
-  private void aimAt(int tQuadrant) {
-    // System.out.println("aiming");
-  }
-
   private int findBestQuadrant() {
     // System.out.println("--- finding best ---");
     int tQuadrant    = 0;
@@ -74,17 +74,33 @@ public class UserCharacter {
     return tQuadrant;
   }
 
+  private void aimAtEnemies() {
+    int x = (int)(Math.sin(Math.toRadians(targetAim * 1.0)) * 150);
+    int y = (int)(Math.cos(Math.toRadians(targetAim * 1.0)) * 150);
+    control.mouseMove(CENTER_X + x, CENTER_Y + y);
+  }
+
+  private void monitorHealth() {
+    if(health < 30) {
+      control.keyPress(NEXUS_KEY);
+      control.delay(50);
+      control.keyRelease(NEXUS_KEY);
+      System.exit(0);
+    }
+  }
+
   public void processEnemyData(List<int[]> data) {
     enemyQuadrants = new List[8];
     System.out.println("enemycount " + data.size());
     // System.out.println(Arrays.toString(data.get(0)));
-    processCoordinateData(data, enemyQuadrants);
+    processMovementCoordinateData(data, enemyQuadrants);
+    processAimingCoordinateData(data);
   }
 
   // Elements of data are pairs: [magnitude, angle]
   // Quadrants start at North as 0.
   // Go around to quadrant 7 which is north north west(just west of north)
-  private void processCoordinateData(List<int[]> data, List<int[]>[] quadrants) {
+  private void processMovementCoordinateData(List<int[]> data, List<int[]>[] quadrants) {
 
     for(int i = 0; i < 8; i++)
       quadrants[i] = new ArrayList<int[]>();
@@ -94,6 +110,17 @@ public class UserCharacter {
       int quadrant  = (deg  + 15) % 360 / 45;
       quadrants[quadrant].add(coordinate);
     }
+  }
+
+  private void processAimingCoordinateData(List<int[]> data) {
+    if(data.isEmpty()) 
+      return;
+    int[] best = data.get(0);
+    for(int[] coordinate: data) {
+      if(coordinate[RADIUS] > best[RADIUS])
+        best = coordinate;
+    }
+    targetAim = best[DEGREES];
   }
 
   public void processHealthData(int hp) {
