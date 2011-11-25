@@ -21,7 +21,7 @@ public class MadGod {
   private static int MAP_START_X   = 1010;
   private static int MAP_LENGTH    = 190;
   private static int MAP_START_Y   = 375;
-  private static int MAP_PRECISION = 5;
+  private static int MAP_PRECISION = 3;
 
   private Robot control;
 
@@ -89,8 +89,11 @@ public class MadGod {
         int[] pixel = new int[3];
         pixels.getPixel(x, y, pixel);
 
-        if(mapTargetIdentified(pixel, colorType))
-          results.add(new Point(x - (MAP_LENGTH / 2), y - (MAP_LENGTH / 2)));
+        if(mapTargetIdentified(pixel, colorType)) {
+          int itemX = x - (MAP_LENGTH / 2);
+          int itemY = (y - (MAP_LENGTH / 2)) * -1;
+          results.add(new Point(itemX, itemY));
+        }
       }
     }
     return results;

@@ -9,10 +9,10 @@ public class Runner {
       MadGod monitor   = new MadGod(controller);
       UserCharacter u  = new UserCharacter(controller);
       while(true) {
-        // List<int[]> enemies = monitor.getEnemies();
-        List<int[]> enemies = new ArrayList<int[]>();
-        int[] stub = {15, 320};
-        enemies.add(stub);
+        List<int[]> enemies = monitor.getEnemies();
+        // List<int[]> enemies = new ArrayList<int[]>();
+        // int[] stub = {15, 320};
+        // enemies.add(stub);
         u.processHealthData(monitor.getHP());
         u.processEnemyData(enemies);
         u.runActions();

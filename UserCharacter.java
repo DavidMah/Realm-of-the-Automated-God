@@ -20,6 +20,7 @@ public class UserCharacter {
 
   public UserCharacter(Robot controller) {
     control = controller;
+    targetQuadrant = -1;
     triggerAutoAttack();
   }
 
@@ -31,6 +32,7 @@ public class UserCharacter {
   public void runActions() {
     int tQuadrant = findBestQuadrant();
     moveTo(tQuadrant);
+    aimAt(tQuadrant);
   }
 
   private void moveTo(int tQuadrant) {
@@ -52,6 +54,10 @@ public class UserCharacter {
     }
   }
 
+  private void aimAt(int tQuadrant) {
+    // System.out.println("aiming");
+  }
+
   private int findBestQuadrant() {
     // System.out.println("--- finding best ---");
     int tQuadrant    = 0;
@@ -70,7 +76,7 @@ public class UserCharacter {
 
   public void processEnemyData(List<int[]> data) {
     enemyQuadrants = new List[8];
-    // System.out.println(data.size());
+    System.out.println("enemycount " + data.size());
     // System.out.println(Arrays.toString(data.get(0)));
     processCoordinateData(data, enemyQuadrants);
   }
