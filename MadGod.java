@@ -25,10 +25,8 @@ public class MadGod {
 
   private Robot control;
 
-  public MadGod() throws AWTException{
-    control = new Robot();
-    control.mouseMove(BAR_START_X, MP_Y);
-    control.setAutoDelay(10);
+  public MadGod(Robot controller) {
+    control = controller;
   }
   // Returns HP on a scale of 1 to 100
   public int getHP() {
@@ -70,14 +68,14 @@ public class MadGod {
   }
 
   // Returns a List of enemy coordinates where current player is at (0, 0)
-  public List<Point> getEnemies() {
-    return getMapType(RED);
+  public List<int[]> getEnemies() {
+    return MadGod.cartesianToPolar(getMapType(RED));
   }
 
   // Returns a List of ally coordinates where current player is at (0, 0)
   // Not well accurate because allies can clump
-  public List<Point> getAllies() {
-    return getMapType(GREEN);
+  public List<int[]> getAllies() {
+    return MadGod.cartesianToPolar(getMapType(GREEN));
   }
 
   private List<Point> getMapType(int colorType) {
@@ -92,7 +90,7 @@ public class MadGod {
         pixels.getPixel(x, y, pixel);
 
         if(mapTargetIdentified(pixel, colorType))
-          results.add(new Point(x, y));
+          results.add(new Point(x - (MAP_LENGTH / 2), y - (MAP_LENGTH / 2)));
       }
     }
     return results;
@@ -112,7 +110,30 @@ public class MadGod {
     return correct;
   }
 
+  public static List<int[]> cartesianToPolar(List<Point> ps) {
+    List<int[]> results = new ArrayList<int[]>();
+    for(int i = 0; i < ps.size(); i++) {
+      results.add(cartesianToPolar(ps.get(i)));
+    }
+    return results;
+  }
+
+  public static int[] cartesianToPolar(Point p) {
+    double radians = (Math.atan2(p.getX(), p.getY()));
+    int degrees    = (int)(radians / (2 * Math.PI) * 360);
+    if(degrees < 0) {
+      degrees *= -1;
+      degrees  = 180 - degrees;
+      degrees += 180;
+    }
+
+    int distance = (int)(Math.sqrt(p.getX() * p.getX() + p.getY() * p.getY()));
+    int[] polar  = {distance, degrees};
+    return polar;
+  }
+
   public void rest() {
     control.delay(REST_TIME);
   }
+
 }
