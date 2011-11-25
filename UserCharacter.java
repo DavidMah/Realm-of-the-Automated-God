@@ -40,7 +40,6 @@ public class UserCharacter {
   }
 
   private void moveTo(int tQuadrant) {
-    System.out.println("moving to: " + tQuadrant);
     if(tQuadrant != targetQuadrant) {
       control.keyRelease(UP_KEY);
       control.keyRelease(LEFT_KEY);
@@ -59,24 +58,22 @@ public class UserCharacter {
   }
 
   private int findBestQuadrant() {
-    // System.out.println("--- finding best ---");
     int tQuadrant    = 0;
     int bestQuadrant = -1;
     for(int i = 0; i < enemyQuadrants.length; i++) {
       List<int[]> quad = enemyQuadrants[i];
-      // System.out.println("i " + i + ", size " + quad.size());
       if(bestQuadrant < quad.size()) {
         tQuadrant = i;
         bestQuadrant   = quad.size();
       }
     }
-    // System.out.println("Best " + tQuadrant);
     return tQuadrant;
   }
 
   private void aimAtEnemies() {
     int x = (int)(Math.sin(Math.toRadians(targetAim * 1.0)) * 150);
     int y = (int)(Math.cos(Math.toRadians(targetAim * 1.0)) * 150);
+    System.out.println("Degrees: " + targetAim + ", x " + x + ", y " + y);
     control.mouseMove(CENTER_X + x, CENTER_Y + y);
   }
 
@@ -91,8 +88,6 @@ public class UserCharacter {
 
   public void processEnemyData(List<int[]> data) {
     enemyQuadrants = new List[8];
-    System.out.println("enemycount " + data.size());
-    // System.out.println(Arrays.toString(data.get(0)));
     processMovementCoordinateData(data, enemyQuadrants);
     processAimingCoordinateData(data);
   }

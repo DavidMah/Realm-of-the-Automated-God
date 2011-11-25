@@ -16,10 +16,10 @@ public class MadGod {
   private static int BAR_WIDTH    = 170;
   private static int BAR_PRECISION = 1;
 
-  private static int REST_TIME = 250;
+  private static int REST_TIME = 100;
 
-  private static int MAP_START_X   = 1010;
-  private static int MAP_LENGTH    = 190;
+  private static int MAP_START_X   = 1005;
+  private static int MAP_LENGTH    = 185;
   private static int MAP_START_Y   = 375;
   private static int MAP_PRECISION = 3;
 
