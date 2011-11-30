@@ -9,7 +9,7 @@ public class MadGod {
   private static int LEFT_MONITOR_SIZE = 1920;
 
   private static int RED   = 0;
-  private static int GREEN = 0;
+  private static int GREEN = 1;
   private static int BLUE  = 2;
 
   private static int REST_TIME = 100;
