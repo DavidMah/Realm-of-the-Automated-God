@@ -1,12 +1,10 @@
 import java.awt.Robot;
+import java.awt.Point;
 import java.util.*;
 public class UserCharacter {
 
   private static int RADIUS  = 1;
   private static int DEGREES = 1;
-
-  private static int CENTER_X = 700;
-  private static int CENTER_Y = 675;
 
   private static int AUTO_ATTACK_KEY = 74;
   private static int NEXUS_KEY = 70;
@@ -15,6 +13,14 @@ public class UserCharacter {
   private static int DOWN_KEY  = 83;
   private static int RIGHT_KEY = 68;
 
+  private static int LEFT_MONITOR_WIDTH = 1920;
+
+  private int screenX;
+  private int screenY;
+  private int screenWidth;
+  private int centerX;
+  private int centerY;
+
   private List<int[]>[] enemyQuadrants;
   private int health;
   private int targetQuadrant;
@@ -22,8 +28,15 @@ public class UserCharacter {
 
   private Robot control;
 
-  public UserCharacter(Robot controller) {
+  public UserCharacter(Robot controller, Point topLeft, Point bottomRight) {
     control = controller;
+
+    screenX = (int)(topLeft.getX() - LEFT_MONITOR_WIDTH);
+    screenY = (int)(topLeft.getY());
+    screenWidth = (int)(bottomRight.getX() - topLeft.getX());
+    centerX = screenX + (screenWidth / 2);
+    centerY = screenY + (screenWidth / 2);
+
     targetQuadrant = -1;
     triggerAutoAttack();
   }
@@ -73,8 +86,7 @@ public class UserCharacter {
   private void aimAtEnemies() {
     int x = (int)(Math.sin(Math.toRadians(targetAim * 1.0)) * 150);
     int y = (int)(Math.cos(Math.toRadians(targetAim * 1.0)) * 150);
-    System.out.println("Degrees: " + targetAim + ", x " + x + ", y " + y);
-    control.mouseMove(CENTER_X + x, CENTER_Y + y);
+    control.mouseMove(centerX + x, centerY + y);
   }
 
   private void monitorHealth() {
