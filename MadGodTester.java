@@ -10,7 +10,8 @@ public class MadGodTester {
       Point l = positions[1];
 
       MadGod m = new MadGod(r, t, l);
-      System.out.println("health " + m.getHP());
+      // System.out.println("health " + m.getHP());
+      m.getAllies();
     } catch (AWTException e) {
       e.printStackTrace();
     }

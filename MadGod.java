@@ -47,15 +47,13 @@ public class MadGod {
 
     mapStartX = (int)(MINIMAP_X_RATIO * screenLength + screenX);
     mapStartY = (4 + screenY); //ew
-    mapWidth  = (int)(MINIMAP_SIZE_RATIO * screenLength + screenX);
+    mapWidth  = (int)(MINIMAP_SIZE_RATIO * screenLength);
 
     barStartX = (int)(BAR_X_RATIO * screenLength + screenX);
     barWidth  = (int)(BAR_WIDTH_RATIO * screenLength);
     levelY    = (int)(LEVEL_Y_RATIO * screenLength + screenY);
     hpY = (int)(HP_Y_RATIO * screenLength + screenY);
     mpY = (int)(MP_Y_RATIO * screenLength + screenY);
-
-    control.mouseMove(screenX, screenY);
   }
   // Returns HP on a scale of 1 to 100
   public int getHP() {
@@ -109,12 +107,17 @@ public class MadGod {
   // Returns a List of ally coordinates where current player is at (0, 0)
   // Not well accurate because allies can clump
   public List<int[]> getAllies() {
-    return MadGod.cartesianToPolar(getMapType(GREEN));
+    List<int[]> results =  MadGod.cartesianToPolar(getMapType(GREEN));
+    System.out.println("-----------------------------------------");
+    for(int[] r: results) {
+      System.out.println(Arrays.toString(r));
+    }
+    return results;
   }
 
   private List<Point> getMapType(int colorType) {
     List<Point> results = new ArrayList<Point>();
-    Rectangle bounds     = new Rectangle(mapStartX, mapStartY, mapWidth, mapWidth);
+    Rectangle bounds    = new Rectangle(mapStartX, mapStartY, mapWidth, mapWidth);
     BufferedImage map   = control.createScreenCapture(bounds);
     Raster pixels = map.getData();
 
@@ -149,9 +152,9 @@ public class MadGod {
 
   public static List<int[]> cartesianToPolar(List<Point> ps) {
     List<int[]> results = new ArrayList<int[]>();
-    for(int i = 0; i < ps.size(); i++) {
-      results.add(cartesianToPolar(ps.get(i)));
-    }
+    // for(int i = 0; i < ps.size(); i++) {
+    //   results.add(cartesianToPolar(ps.get(i)));
+    // }
     return results;
   }
 

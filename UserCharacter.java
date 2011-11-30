@@ -91,6 +91,7 @@ public class UserCharacter {
 
   private void monitorHealth() {
     if(health < 30) {
+      System.out.println("Detected that character may die with a health ratio of " + health);
       control.keyPress(NEXUS_KEY);
       control.delay(50);
       control.keyRelease(NEXUS_KEY);
@@ -120,7 +121,7 @@ public class UserCharacter {
   }
 
   private void processAimingCoordinateData(List<int[]> data) {
-    if(data.isEmpty()) 
+    if(data.isEmpty())
       return;
     int[] best = data.get(0);
     for(int[] coordinate: data) {
