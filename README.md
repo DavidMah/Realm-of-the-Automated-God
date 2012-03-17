@@ -2,7 +2,12 @@
 
 https://github.com/DavidMah/Realm-of-the-Automated-God
 
-Realm of the Automated God is a Bot that plays Realm of the Mad God.
+Realm of the Automated God is a Bot that plays Realm of the Mad God. 
+
+**Unfortunately, t's really janky and I'm certain that you won't be able
+to get it to work on your machine without many hours of work. This is because
+it was made for the purpose of tinkering with and showing the worth of the Robot.java 
+library, and that task is a success**
 
 # Instructions
 
